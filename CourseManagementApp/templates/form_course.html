@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}{{action}} Course - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">{{action}} Course</h1>
+
+<form method="post">
+    {{ form.csrf_token }}
+
+    {% if course != None %}
+        <p>{{ form.course_id.label(class='crslabel') }} {{ form.course_id(value=course.course_id, disabled=True) }}</p>
+    {% else %}
+        <p>{{ form.course_id.label(class='crslabel') }} {{ form.course_id(value=course.course_id) }}</p>
+    {% endif %}
+    
+    <p>{{ form.course_title.label(class='crslabel') }} {{ form.course_title(value=course.course_title) }}</p>
+    <p>{{ form.theory_hours.label(class='crslabel') }} {{ form.theory_hours(value=course.theory_hours) }}</p>
+    <p>{{ form.lab_hours.label(class='crslabel') }} {{ form.lab_hours(value=course.lab_hours) }}</p>
+    <p>{{ form.work_hours.label(class='crslabel') }} {{ form.work_hours(value=course.work_hours) }}</p>
+    
+    {% set default_description = form.description.process_data(course.description) %}
+    <p>{{ form.description.label(class='crslabel') }} {{ form.description() }}</p>
+
+    {% if domain != None %}
+    {% set default_domain = form.domain.process_data(domain.domain) %}
+    {% endif %}
+    <p>{{ form.domain.label(class='crslabel') }} {{ form.domain() }}</p>
+
+    {% if course != None %}
+    {% set default_term_id = form.term_id.process_data(course.term_id) %}
+    {% endif %}
+    <p>{{ form.term_id.label(class='crslabel') }} {{ form.term_id() }}</p>
+
+    <p><input type="submit" /></p>
+</form>
+{% endblock %}

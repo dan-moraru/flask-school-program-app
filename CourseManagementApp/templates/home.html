@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Home - Dawson College Course Management{% endblock %}
+{% block content %}
+<section id='home-content'>
+    {% if current_user.is_authenticated and not current_user.blocked %}
+    <section id='add-section'>
+        <p class='add-btn'><a href="{{ url_for('term.add_term') }}">Add Term</a></p>
+        <p class='add-btn'><a href="{{ url_for('domain.add_domain') }}">Add Domain</a></p>
+        <p class='add-btn'><a href="{{ url_for('course.add_course') }}">Add Course</a></p>
+        <p class='add-btn'><a href="{{ url_for('competency.add_competency') }}">Add Competency</a></p>
+        <p class='add-btn'><a href="{{ url_for('element.add_element') }}">Add Element</a></p>
+        <p class='add-btn'><a href="{{ url_for('course_elements.add_course_elements') }}">Link Course & Element</a></p>
+    </section>
+    {% endif %}
+    <h1 id="home-heading">Welcome to Dawson College's Course Management Service</h1>
+    <section id='main-home-section'>
+        <section id='course-section'>
+            <h3>Select a course below, or search through the program</h3>
+            {% set term_count = namespace(value=0) %}
+            {% for term in terms %}
+            {% set term_count.value = term_count.value + 1 %}
+            {% set count = namespace(value=0) %}
+            <h3>Term {{term.term_id}} - {{term.term_name}}:
+            {% if current_user.is_authenticated and not current_user.blocked %}
+                <a class="delete" href="{{url_for('term.delete_term', term_id=term.term_id)}}" onclick="return confirm('Are you sure you want to delete this term?')">Delete</a>
+            {% endif %}
+            </h3>
+            <ul>
+                {% for course in courses %}
+                {% if course.term_id == term.term_id %}
+                {% set count.value = count.value + 1 %}
+                    <li class="home-course-list"><a href="{{url_for('course.get_course_by_id', id=course.course_id)}}">{{course.course_id | safe}} - {{course.course_title | safe}}</a>
+                        {% if current_user.is_authenticated and not current_user.blocked %}
+                        (<a class="edit" href="{{url_for('course.edit_course', course_id=course.course_id)}}">Edit</a> | 
+                       <a class="delete" href="{{url_for('course.delete_course', course_id=course.course_id)}}" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>&ensp;)
+                   {% endif %}
+                    </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% if count.value == 0 %}
+            <p><b>No Courses For This Term</b></p>
+            {% endif %}
+            {% endfor %}
+            {% if term_count.value == 0 %}
+            <h3>No Course And Term Data On Record</h3>
+            {% endif %}
+        </section>
+        <section id="search-bar">
+            <h3>Program Search</h3>
+            <p>Search through Courses, Term names, Competencies, Elements and Domains</p>
+            <form method="POST" id="searchform">
+                {{ form.csrf_token }}
+                
+                <p id="searchparagraph">{{ form.search_query.label() }} {{ form.search_query(id="search_query") }}</p>
+
+                <p><input type="submit" id="searchsubmit" /></p>
+            </form>
+            <h3>Reference Pages</h3>
+            <section id="references">
+                <p class="add-btn"><a href="{{ url_for('domain.get_domains') }}" >Domains</a></p>
+                <p class="add-btn"><a href="{{url_for('element.get_elements')}}" >Elements</a></p>
+                <p class="add-btn"><a href="{{ url_for('competency.get_competencies') }}" >Competencies</a></p>
+            </section>
+        </section>
+    </section>
+</section>
+{% endblock %}

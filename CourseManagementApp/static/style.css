@@ -1,0 +1,670 @@
+html,body{
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+body{
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    height: 10%;
+    background-color: #0454b8;
+    color: white;
+}
+
+#title{
+    position: fixed;
+    left: 37%;
+}
+
+footer{
+    display: flex;
+    justify-content: space-around;
+    height: 9%;
+    background-color: #0454b8;
+    color:white;    
+}
+
+#status_message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.flash{
+    border-bottom: 2px black solid;
+}
+
+#names > *{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+    font-size: 25px;
+}
+
+#auth-buttons{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.admin-buttons {
+    padding: 5px;
+}
+
+.admin-buttons > a{
+    font: bold 20px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+.admin-buttons:active{
+    filter: drop-shadow(0 0 1.25rem rgb(48, 157, 247));
+}
+
+.edit, .delete{
+    font: bold 15px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+.auth-buttons{
+    color: white;
+}
+
+.auth-buttons:hover{
+    color: black;
+}
+
+#content{
+    height: 100%;
+    overflow: auto;
+}
+
+#home-content{
+    height: 90%;
+}
+
+.add-btn{
+    justify-content: space-around;
+}
+
+#main-home-section{
+    display: flex;
+    justify-content: space-around;
+}
+
+#course-section{
+    height: 100%;
+    width: 60%;
+    margin: 0 0 0 5%;
+    overflow: auto;
+    float: left;
+}
+
+#search-bar{
+    width: 30%;
+    bottom: 100px;
+}
+
+.course-link{
+    text-decoration: none;
+}
+
+#logo{
+    height: 90%;
+}
+
+#add-section{
+    margin: 25px;
+}
+
+.form:not(#searchform){
+    display: flex;
+    width: 200px;
+    justify-content: center;
+}
+
+#signup-form{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 10%;
+}
+
+label{
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.competency-code{
+    display: inline;
+}
+
+.edit{
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+#add-section{
+    width: 100%;
+    height:10%;
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: black 2px solid;
+    border-top: black 2px solid;
+}
+
+#add-section > p{
+    margin: 0.95% 3% 0 3%;
+}
+
+.add-btn > a{
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(6, 80, 80);
+    font-size: larger;
+}
+
+.add-btn > a:hover{
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(2, 45, 45);
+    background-color: rgb(234, 230, 230);
+    font-size: larger;
+}
+
+#profile-pic-home{
+    height: 20px;
+    width: 20px;
+    object-fit: cover;
+}
+
+#profile-pic{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border:black 2px solid;
+    margin: 0 5% 0;
+    float: left;
+}
+
+#profile-name{
+    font-size: 10em;
+    margin: 0;
+    width: 80%;
+}
+
+#profile-content{
+    display: flex;
+    height: 80%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 10px auto;
+}
+
+table{
+    border-collapse: collapse;
+    margin: 1%;
+}
+
+#add-user-btn, #title-dash, #profile-block{
+    margin: 1%;
+}
+
+thead{
+    background-color: #0454b8;
+    color: #ffffff;
+    text-align: left;
+}
+
+tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+#controls{
+    text-align: center;
+}
+
+th,td{
+    border: black 1px solid;
+    padding:12px 15px;
+}
+
+.desc{
+    height: 15%;
+}
+
+.change-pwd{
+    margin: 5% 0 0 5%;
+    width: 15%;
+}
+
+.change-pwd-form{
+    margin-top: 0;
+    margin-left: 5%;
+}
+
+.cpwl{
+    width: 120px;
+}
+
+.account-stats{
+    margin: 0 0 0 5%;
+}
+
+#title-profile{
+    margin-left: 5%; 
+}
+
+#element_heading{
+    margin-left: 5px;
+}
+
+.elh3{
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.etopborder{
+    border-top: 2px solid #4F81BD;
+}
+
+#element_display{
+    border: 5px solid #4F81BD;
+    width: 571px;
+    margin-top: 50px;
+    margin-left: 5px;
+}
+
+#elinf{
+    margin-top: 0px;
+    padding: 5px;
+    background-color: #EDDCD9;
+    margin: auto;
+    text-align: center;
+}
+
+#domref{
+    margin-left: 5px;
+}
+
+#domains-section{
+    border: 5px solid #4F81BD;
+    width: 952px;
+    margin-top: 50px;
+    margin-left: 5px;
+}
+
+#domname{
+    background-color: #F7E8D4;
+    text-align: center;
+    margin-block: 0px;
+    padding-block: 10px;
+}
+
+.dominfokey{
+    margin-top: 0px;
+    padding-top: 5px;
+}
+
+#ddesc{
+    background-color: #F7DAC6;
+    text-align: center;
+}
+
+.dominfo{
+    margin-left: 5px;
+}
+
+.domcourse_section{
+    background-color: #EFEFEF;
+    padding-bottom: 5px;
+}
+
+#domain-title{
+    margin-left: 5px;
+}
+
+#spdominfo{
+    margin-top: 50px;
+    border: 5px solid #4F81BD;
+    width: 571px;
+    margin-left: 5px;
+}
+
+#spdominfo h3{
+    background-color: #E8F0F7;
+    text-align: center;
+    margin-block: 0px;
+    padding-block: 10px;
+}
+
+#spdominfo p{
+    margin-inline: 5px;
+    margin-top: 0px;
+    padding-top: 5px;
+}
+
+#competency_display{
+    margin-top: 50px;
+    width: 952px;
+    border: 5px solid #4F81BD;
+    margin-left: 5px;
+}
+
+#compinf{
+    margin-block: 0px;
+    padding: 5px;
+    background-color: #F7E8D4;
+    text-align: center;
+}
+
+.comph3{
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.comph3border{
+    border-top: 2px solid #4F81BD;
+}
+
+#competency_heading{
+    margin-left: 5px;
+}
+
+#compreftitle{
+    margin-left: 5px;
+}
+
+#element_section h3{
+    text-align: center;
+    padding-block: 5px;
+    margin-bottom: 20px;
+    background-color: #EDDCD9;
+}
+
+#element_section{
+    background-color: #EFEFEF;
+}
+
+#competency_element_display{
+    padding-bottom: 5px;
+}
+
+.celinfborder{
+    border-top: 2px solid #4F81BD;
+}
+
+.ciborder{
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
+.celname{
+    margin-left: 5px;
+}
+
+#each_competency, #each_element{
+    margin-top: 50px;
+    border: 5px solid #4F81BD;
+    width: 952px;
+    margin-bottom: 30px;
+    margin-left: 5px;
+}
+
+#comprefname{
+    background-color: #F7E8D4;
+    margin-block: 0px;
+    padding-block: 10px;
+    text-align: center;
+}
+
+#elemrefname{
+    background-color: #EDDCD9;
+    margin-block: 0px;
+    padding-block: 10px;
+    text-align: center;
+}
+
+.comprefinf{
+    margin-block: 0px;
+    padding-block: 5px;
+}
+
+.crileft{
+    margin-left: 5px;
+}
+
+#achcon{
+    margin-top: -2px;
+}
+
+.criborder{
+    border-top: 2px solid #4F81BD;
+}
+
+.element_section{
+    background-color: #EFEFEF;
+    padding-bottom: 5px;
+}
+
+.element-name{
+    margin-left: 5px;
+}
+
+.forceborder ~ .forceborder{
+    border-top: 2px solid #4F81BD;
+}
+
+#course_heading{
+    margin-left: 5px;
+}
+
+#course_display{
+    margin-top: 50px;
+    width: 952px;
+    border: 6px solid #4F81BD;
+    margin-left: 5px;
+}
+
+#crsinf{
+    margin-block: 0px;
+    padding: 5px;
+    background-color: #F7DAC6;
+    text-align: center;
+}
+
+.cstats{
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.csborder{
+    border-top: 4px solid #4F81BD;
+}
+
+#competency_element_display{
+    background-color: #EFEFEF;
+}
+
+#cedrc{
+    text-align: center;
+    padding-block: 5px;
+    margin-bottom: 20px;
+    background-color: #F7E8D4;
+}
+
+.crscompname{
+    margin-left: 5px;
+}
+
+.coursecompelem{
+    background-color: #E1E1E1;
+    padding-bottom: 5px;
+}
+
+.crsasocel{
+    background-color: #EDDCD9;
+}
+
+.force3border ~ .force3border{
+    border-top: 3px solid #4F81BD;
+}
+
+.search-result{
+    margin-block: 10px;
+}
+
+.lincrs{
+    text-align: center;
+    background-color: #F7DAC6;
+}
+
+.course_list{
+    background-color: #E1E1E1;
+    padding-bottom: 5px;
+}
+
+.element_course_list{
+    background-color: #EFEFEF;
+    padding-bottom: 5px;
+}
+
+#home-heading{
+    margin-left: 5px;
+    display: inline;
+}
+
+.home-course-list{
+    margin-block: 15px;
+}
+
+.heading-align{
+    margin: 10px 0 0 10px;
+}
+
+#hours_validation{
+    margin-left: 5px;
+    padding-left: 5px;
+    border: 6px double #4F81BD;
+    width: 855px;
+}
+
+#validation-heading{
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.invalid-warning{
+    color: #E90000;
+}
+
+.crslabel{
+    width: 160px;
+}
+
+.domlabel{
+    width: 170px;
+}
+
+.elemlabel{
+    width: 220px;
+}
+
+.celbl{
+    width: 120px;
+}
+
+.celble{
+    width: 210px;
+}
+
+#celble_form{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    margin: 10px auto;
+}
+
+#crselgrp{
+    width: 210px;
+}
+
+#ceg_form{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    margin: 10px auto;
+}
+
+#references{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#searchform{
+    flex-direction: row;
+    justify-content: first;
+    width: 100%;
+}
+
+#searchparagraph{
+    display: flex;
+    padding-inline: 10px;
+}
+
+.complabel{
+    width: 210px;
+}
+
+#raiseup{
+    margin-top: -5px;
+}

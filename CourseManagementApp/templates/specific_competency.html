@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}{{competency.competency}} - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 id="competency_heading">Competency: {{competency.competency}} 
+{% if current_user.is_authenticated and not current_user.blocked %}
+    (<a class="edit" href="{{url_for('competency.edit_competency', comp_id=competency.competency_id)}}">Edit</a> | 
+    <a class="delete" href="{{url_for('competency.delete_competency', comp_id=competency.competency_id)}}" onclick="return confirm('Are you sure you want to delete this competency?')">Delete</a>&ensp;)
+{% endif %}
+</h1>
+<section id="competency_display">
+    <h2 id="compinf">Competency Information</h2>
+    <h3 class="comph3">Competency Id: {{competency.competency_id}}</h3>
+    <h3 class="comph3 comph3border">Type: {{competency.competency_type}}</h3>
+    <h3 class="comph3 comph3border">Achievement Context:</h3>
+    {% set achievements = competency.competency_achievement.split('*') %}
+    <ul>
+        {% for achievement in achievements %}
+        {% if achievement != '' %}
+        <li>{{achievement}}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    <section id="element_section">
+        <h3>Associated Elements (<a href="{{url_for('element.get_elements')}}" >Reference Page</a>)</h3>
+        {% set element_count = namespace(value=0) %}
+        {% if competency_elements|length > 0 %}
+        {% for element in competency_elements %}
+        <section class="forceborder"></section>
+        <section id="competency_element_display">
+            {% set element_count.value = element_count.value + 1 %}
+            <p class="celinf celname"><b>Element: <a href="{{url_for('element.get_element_by_id', id=element.element_id)}}">{{element.element}}</a>
+                {% if current_user.is_authenticated and not current_user.blocked %}
+                (<a class="edit" href="{{url_for('element.edit_element', element_id=element.element_id)}}">Edit</a> | 
+                <a class="delete" href="{{url_for('element.delete_element', element_id=element.element_id)}}" onclick="return confirm('Are you sure you want to delete this element?')">Delete</a>&ensp;)
+                {% endif %}</b>
+            </p>
+            <ul>
+                <li><b>Criteria:</b></li>
+                    {% set criteria = element.element_criteria.split('*') %}
+                    <ul>
+                        {% for criterion in criteria %}
+                        {% if criterion != '' %}
+                        <li>{{criterion}}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <br />
+                <li><b class="celinf">Order:</b> {{element.element_order}}</li>
+            </ul>
+        </section>
+        {% endfor %}
+        {% endif %}
+        {% if element_count.value == 0 %}
+        <section id="competency_element_display">
+            <p><b>No elements associated to this competency</b></p>
+            {% if current_user.is_authenticated and not current_user.blocked %}
+            <p><b class="invalid-warning">WARNING:</b> This competency must have at least one element linked to it. Associate an element or delete it.</p>
+            {% endif %}
+        </section>
+        {% endif %}
+    </section>
+    <section class="course_list">
+        <h3 class="comprefinf lincrs"><span class="crileft">Courses Linked (By Elements)</span></h3>
+        {% set count = namespace(value=0) %}
+        {% if course_competency_groupings|length > 0 %}
+        {% for grouping in course_competency_groupings %}
+        {% if grouping[0] == competency.competency_id %}
+            {% set count.value = count.value + 1 %}
+            <p class="dominfo"><a href="{{url_for('course.get_course_by_id', id=grouping[1])}}">{{grouping[1]}} - {{grouping[2]}}</a>
+                {% if current_user.is_authenticated and not current_user.blocked %}
+                (<a class="edit" href="{{url_for('course.edit_course', course_id=grouping[1])}}">Edit</a> | 
+                <a class="delete" href="{{url_for('course.delete_course', course_id=grouping[1])}}" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>&ensp;)
+                {% endif %}
+            </p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if count.value == 0 %}
+        <p class="dominfo"><b>No courses linked to this competency</b></p>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}

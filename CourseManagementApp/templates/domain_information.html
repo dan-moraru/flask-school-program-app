@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{domain.domain}} - Dawson College Course Management{% endblock %}
+{% block content %}
+    <h1 id="domain-title">Domain: {{domain.domain}}
+    {% if current_user.is_authenticated and not current_user.blocked %}
+        (<a class="edit" href="{{url_for('domain.edit_domain', domain_id=domain.domain_id)}}">Edit</a> | 
+        <a class="delete" href="{{url_for('domain.delete_domain', domain_id=domain.domain_id)}}" onclick="return confirm('Are you sure you want to delete this domain?')">Delete</a>&ensp;)
+    {% endif %}
+    </h1>
+    <section id="spdominfo">
+        <h3>Description:</h3>
+        <p>{{domain.domain_description}}</p>
+        <section class="domcourse_section">
+            <p class="dominfokey" id="ddesc"><b class="dominfo">Associated Courses:</b></p>
+            {% set count = namespace(value=0) %}
+            {% if courses|length > 0 %}
+            {% for course in courses %}
+            {% if course.domain_id == domain.domain_id %}
+                {% set count.value = count.value + 1 %}
+                <p class="dominfo"><a href="{{url_for('course.get_course_by_id', id=course.course_id)}}">{{course.course_id}} - {{course.course_title}}</a>
+                    {% if current_user.is_authenticated and not current_user.blocked %}
+                    (<a class="edit" href="{{url_for('course.edit_course', course_id=course.course_id)}}">Edit</a> | 
+                    <a class="delete" href="{{url_for('course.delete_course', course_id=course.course_id)}}" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>&ensp;)
+                    {% endif %}
+                </p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if count.value == 0 %}
+            <p class="dominfo"><b>No courses in this domain</b></p>
+            {% endif %}
+        </section>
+    </section>
+{% endblock %}

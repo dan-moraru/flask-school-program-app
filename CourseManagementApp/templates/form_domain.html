@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{action}} Domain - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">{{action}} Domain</h1>
+
+<form method="post">
+    {{ form.csrf_token }}
+    
+    <p>{{ form.domain.label(class='domlabel') }} {{ form.domain(value=domain.domain) }}</p>
+
+    {% set default_description = form.domain_description.process_data(domain.domain_description) %}
+    <p>{{ form.domain_description.label(class='domlabel') }} {{ form.domain_description() }}</p>
+
+    <p><input type="submit" /></p>
+</form>
+{% endblock %}

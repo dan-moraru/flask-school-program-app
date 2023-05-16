@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{action}} Competency - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">{{action}} Competency</h1>
+
+<form method="post">
+    {{ form.csrf_token }}
+
+    {% if competency != None %}
+        <p>{{ form.competency_id.label(class_='complabel') }} {{ form.competency_id(value=competency.competency_id, disabled=True) }}</p>
+    {% else %}
+        <p>{{ form.competency_id.label(class_='complabel') }} {{ form.competency_id(value=competency.competency_id) }}</p>
+    {% endif %}
+
+    <p>{{ form.competency.label(class_='complabel') }} {{ form.competency(value=competency.competency) }}</p>
+
+    {% set default_compach = form.competency_achievement.process_data(competency.competency_achievement) %}
+    <p>{{ form.competency_achievement.label(class_='complabel') }} {{ form.competency_achievement() }}</p>
+    <p id="raiseup">(Please separate each context by an *)</p>
+
+    <p>{{ form.competency_type.label(class_='complabel') }} {{ form.competency_type() }}</p>
+
+    {% if competency == None %}
+    <h3>Create an element to link to this new competency</h3>
+
+    <p>{{ form.element.label(class_='complabel') }} {{ form.element() }}</p>
+    <p>{{ form.element_criteria.label(class_='complabel') }} {{ form.element_criteria() }}</p>
+    <p id="raiseup">(Please separate each criteria by an *)</p>
+    <p>{{ form.element_order.label(class_='complabel') }} {{ form.element_order() }}</p>
+    {% endif %}
+
+    <p><input type="submit" /></p>
+</form>
+{% endblock %}

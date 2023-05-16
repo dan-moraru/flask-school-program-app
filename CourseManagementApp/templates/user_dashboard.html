@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}
+    ServerAdmin Dashboard - Dawson College Course Management
+{% endblock %}
+
+{% block content %}
+<h1 id="title-dash">User Dashboard</h1>
+<table>
+    <caption><b>User List</b></caption>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            {% if current_user.access_group == 3 %}
+                <th>Group</th>
+            {% endif %}
+            {% if current_user.access_group > 1 %}
+                <th id="controls" colspan="4">Admin Controls</th>
+            {% else %}
+                <th id="controls">Profile</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{user.email}}</td>
+            <td>{{user.name}}</td>
+            {% if current_user.access_group == 3 %}
+                {% if user.access_group == 3 %}
+                <td>Server Admin</td>
+                {% elif user.access_group == 2%}
+                <td>Admin</td>
+                {% else %}
+                <td>Member</td>
+                {% endif %}
+            {% endif %}
+            <td><a href="{{url_for('auth.get_profile',email=user.email)}}">Profile</a></td>
+            {% if current_user.access_group > 1 %}
+                {% if current_user.access_group >= 2 and not current_user.id == user.id %}
+                    <td><a href="{{url_for('admin.edit_user',email=user.email)}}">Change Group</a></td>
+                {% endif %}
+                <td>
+                {% if current_user.access_group != 1 and not current_user.id == user.id %}
+                    {% if user.blocked %}
+                        <a href="{{url_for('admin.block_user',email=user.email)}}">Unblock</a>
+                    {% else %}
+                        <a href="{{url_for('admin.block_user',email=user.email)}}">Block</a>
+                    {% endif %}
+                {% endif %}
+                </td>
+                <td>
+                {% if current_user.access_group != 1 and not current_user.id == user.id %}
+                    <a href="{{url_for('admin.delete_user',email=user.email)}}">Delete</a>
+                {% endif %}
+                </td>
+            {% endif %}
+            {% if current_user.access_group == 3 and current_user.id == user.id%}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if current_user.access_group != 1 %}
+    <a id="add-user-btn" href="{{url_for('auth.signup')}}">Add User</a>
+{% endif %}
+{% endblock %}

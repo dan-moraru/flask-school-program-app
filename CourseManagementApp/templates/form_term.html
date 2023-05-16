@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Add Term - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">Add Term</h1>
+
+<form method="post">
+    {{ form.csrf_token }}
+    
+    <p>{{ form.term_id.label }} {{ form.term_id() }}</p>
+    <p><input type="submit" /></p>
+</form>
+{% endblock %}

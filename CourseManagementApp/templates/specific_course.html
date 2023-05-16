@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}{{course.course_title}} - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 id="course_heading">Course: {{course.course_title}} 
+{% if current_user.is_authenticated and not current_user.blocked %}
+     (<a class="edit" href="{{url_for('course.edit_course', course_id=course.course_id)}}">Edit</a> | 
+    <a class="delete" href="{{url_for('course.delete_course', course_id=course.course_id)}}" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>&ensp;)
+{% endif %}
+</h1>
+
+{% if current_user.is_authenticated and not current_user.blocked %}
+<br />
+<section id="hours_validation">
+    <h2 id="validation-heading">Course Hours Validation</h2>
+    {% set reference_course_total_hours = ((course.theory_hours + course.lab_hours) * 15) %}
+
+    {% if reference_course_total_hours > 0 and total_element_hours > 0 and reference_course_total_hours == total_element_hours %}
+    <p>The total element hours for this course ({{total_element_hours}}) match the expected total course hours ({{reference_course_total_hours}}).</p>
+    <p>No further action necessary.</p>
+    
+    {% else %}
+    <p><b class="invalid-warning">WARNING:</b></p>
+    
+    {%if reference_course_total_hours != total_element_hours %}
+    <p>The total course element hours for this course ({{total_element_hours}}) does not match the expected total course hours ({{reference_course_total_hours}}).</p>
+    <p>Either adjust the element hours (add/edit/remove) or adjust the expected total hours for this course.</p>
+    {% endif %}
+
+    {% if reference_course_total_hours == 0 or total_element_hours == 0 %}
+    <p>Expected total course hours and total course element hours each must be greater than 0.
+    {% endif %}
+    <p>
+
+    {% endif %}
+</section>
+<br />
+{% endif %}
+
+<section id="course_display">
+    <h2 id="crsinf">Course Information</h2>
+    <h3 class="cstats">Course Id: {{course.course_id}}</h3>
+    <h3 class="cstats csborder">Term: {{course.term_id}}</h3>
+    <h3 class="cstats csborder">Domain: <a href="{{url_for('domain.get_domain_by_id', id=course_domain.domain_id)}}">{{course_domain.domain}}</a>&ensp;
+        {% if current_user.is_authenticated and not current_user.blocked %}
+        (<a class="edit" href="{{url_for('domain.edit_domain', domain_id=course_domain.domain_id)}}">Edit</a> | 
+        <a class="delete" href="{{url_for('domain.delete_domain', domain_id=course_domain.domain_id)}}" onclick="return confirm('Are you sure you want to delete this domain?')">Delete</a>&ensp;)
+    {% endif %}
+        (<a href="{{ url_for('domain.get_domains') }}" >Reference Page</a>)
+    </h3>
+    <h3 class="cstats csborder">Theory Hours: {{course.theory_hours}} ||==|| Lab Hours: {{course.lab_hours}} ||==|| Work Hours: {{course.work_hours}}</h3>
+    <h3 class="cstats csborder">Description:</h3>
+    <p>{{course.description}}</p>
+
+    <section id="competency_element_display">
+        <h3 id="cedrc">Relevant Competencies (<a href="{{ url_for('competency.get_competencies') }}" >Reference Page</a>)</h3>
+        {% set competency_count = namespace(value=0) %}
+        {% if course_competencies|length > 0 %}
+        {% for competency in course_competencies %}
+        {% set competency_count.value = competency_count.value + 1 %}
+        <section class="force3border"></section>
+        <h3 class="crscompname">Competency: <a href="{{url_for('competency.get_competency_by_id', id=competency.competency_id)}}">{{competency.competency}}</a>
+            {% if current_user.is_authenticated and not current_user.blocked %}
+                (<a class="edit" href="{{url_for('competency.edit_competency', comp_id=competency.competency_id)}}">Edit</a> | 
+                <a class="delete" href="{{url_for('competency.delete_competency', comp_id=competency.competency_id)}}" onclick="return confirm('Are you sure you want to delete this competency?')">Delete</a>&ensp;)
+            {% endif %}
+        </h3>
+        <ul>
+            <li><h3>Id: {{competency.competency_id}}</h3></li>
+            <li><h3>Type: {{competency.competency_type}}</h3></li>
+            <li><h3>Achievement Context:</h3></li>
+            {% set achievements = competency.competency_achievement.split('*') %}
+            <ul>
+                {% for achievement in achievements %}
+                {% if achievement != '' %}
+                <li>{{achievement}}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </ul>
+        <section class="coursecompelem">
+            <h3 class="crsasocel">&ensp;&ensp;&ensp;&ensp;Associated Elements
+            {% if current_user.is_authenticated and not current_user.blocked %}
+                (Modifying Course-Element Links: <a class="edit" href="{{url_for('course_elements.edit_course_elements')}}">Edit</a> | 
+                <a class="delete" href="{{url_for('course_elements.delete_course_elements')}}">Delete</a>&ensp;)
+            {% endif %} 
+            (<a href="{{url_for('element.get_elements')}}" >Reference Page</a>)
+            </h3>
+            {% set element_count = namespace(value=0) %}
+            {% if course_elements|length > 0 %}
+            {% for element in course_elements %}
+            {% if element.competency_id == competency.competency_id %}
+            {% set element_count.value = element_count.value + 1 %}
+            <section class="forceborder"></section>
+            <ul>
+                <p class="element-name"><b>Element: <a href="{{url_for('element.get_element_by_id', id=element.element_id)}}">{{element.element}}</a>
+                {% if current_user.is_authenticated and not current_user.blocked %}
+                (<a class="edit" href="{{url_for('element.edit_element', element_id=element.element_id)}}">Edit</a> | 
+                <a class="delete" href="{{url_for('element.delete_element', element_id=element.element_id)}}" onclick="return confirm('Are you sure you want to delete this element?')">Delete</a>&ensp;)
+                {% endif %}</b>
+                </p>
+                <ul>
+                    <li><b>Criteria:</b>
+                        {% set criteria = element.element_criteria.split('*') %}
+                        <ul>
+                            {% for criterion in criteria %}
+                            {% if criterion != '' %}
+                            <li>{{criterion}}</li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <br />
+                    <li><b>Order:</b> {{element.element_order}}</li>
+                    <br />
+                    {% for element_hours in course_element_hours %}
+                    {% if element_hours[0] == element.element_id %}
+                    <li><b>Hours:</b> {{element_hours[1]}}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </ul>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if element_count.value == 0 %}
+            <p><b>No competencies and elements associated to this course</b></p>
+            {% endif %}
+        </section>
+        {% endfor %}
+        {% endif %}
+        {% if competency_count.value == 0 %}
+        <p><b>No competencies associated to this course</b></p>
+        {% endif %}
+    </section>
+
+</section>
+{% endblock %}

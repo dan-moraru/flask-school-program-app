@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{element.element}} - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 id="element_heading">Element: {{element.element}}
+    {% if current_user.is_authenticated and not current_user.blocked %}
+    (<a class="edit" href="{{url_for('element.edit_element', element_id=element.element_id)}}">Edit</a> | 
+   <a class="delete" href="{{url_for('element.delete_element', element_id=element.element_id)}}"  onclick="return confirm('Are you sure you want to delete this element?')">Delete</a>&ensp;)
+{% endif %}
+</h1>
+<section id="element_display">
+    <h2 id="elinf">Element Information</h2>
+    <h3 class="elh3">Criteria:</h3>
+    {% set criteria = element.element_criteria.split('*') %}
+        <ul>
+            {% for criterion in criteria %}
+            {% if criterion != '' %}
+            <li>{{criterion}}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    <h3 class="elh3 etopborder">Element Order: {{element.element_order}}</h3>
+    <h3 class="elh3 etopborder">Associated Competency: <a href="{{url_for('competency.get_competency_by_id', id=element.competency_id)}}">{{element.competency_id}}</a></h3>
+    <section class="element_course_list">
+        <h3 class="comprefinf lincrs"><span class="crileft">Courses Linked</span></h3>
+        {% set count = namespace(value=0) %}
+        {% if courses|length > 0 %}
+        {% for course in courses %}
+        {% set count.value = count.value + 1 %}
+        <p class="dominfo"><a href="{{url_for('course.get_course_by_id', id=course.course_id)}}">{{course.course_id}} - {{course.course_title}}</a>
+            {% if current_user.is_authenticated and not current_user.blocked %}
+            (<a class="edit" href="{{url_for('course.edit_course', course_id=course.course_id)}}">Edit</a> | 
+            <a class="delete" href="{{url_for('course.delete_course', course_id=course.course_id)}}" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>&ensp;)
+            {% endif %}
+        </p>
+        {% endfor %}
+        {% endif %}
+        {% if count.value == 0 %}
+        <p class="dominfo"><b>No courses linked to this element</b></p>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}

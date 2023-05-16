@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Profile - {{ profile.email }} - Dawson College Course Management{% endblock %}
+{% block content %}
+    <h1 id="title-profile">Profile Page for {{profile.email}}</h1>
+    <img id="profile-pic" src="{{ url_for('auth.get_profile_picture', email=profile.email) }}" />
+    <p id="profile-name">{{profile.name}}</p>
+    <h3><a href="{{url_for('auth.edit', email=profile.email)}}"><b>Edit Account</b></a></h3>
+    {% if profile.blocked %}
+    <h1 id="profile-block">ACCOUNT BLOCKED</h1>
+    {% endif %}
+    {% if current_user.id == profile.id %}
+    <h3 class="change-pwd">Change Password</h3>
+    <form id="change-pwd-form" method="post" class="change-pwd-form">
+        <p><label for="old-pwd" class="cpwl">Old Password:</label>
+        <input name="old-pwd" id="old-pwd" required type="password"></p>
+
+        <p><label for="new-pwd" class="cpwl">New Password:</label>
+        <input name="new-pwd" id="new-pwd" required type="password"></p>
+
+        <p><input name="changepwd" type="submit" value="Set New Password" /></p>
+    </form>
+    {% endif %}
+    <p class="account-stats"><b>Account Creation Date:</b> {{profile.date_created.strftime('%A %d %B %Y')}}</p>
+{% endblock %}

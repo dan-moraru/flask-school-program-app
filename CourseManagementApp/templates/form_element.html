@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{action}} Element - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">{{action}} Element</h1>
+
+<form method="post">
+    {{ form.csrf_token }}
+    
+    <p>{{ form.element_order.label(class='elemlabel') }} {{ form.element_order(value=element.element_order) }}</p>
+    <p>{{ form.element.label(class='elemlabel') }} {{ form.element(value=element.element) }}</p>
+    
+    {% set default_elem_crit = form.element_criteria.process_data(element.element_criteria) %}
+    <p>{{ form.element_criteria.label(class='elemlabel') }} {{ form.element_criteria() }}</p>
+    <p id="raiseup">(Please separate each criteria by an *)</p>
+
+    {% set default_comp_id = form.competency_id.process_data(element.competency_id) %}
+    <p>{{ form.competency_id.label(class='elemlabel') }} {{ form.competency_id() }}</p>
+
+    <p><input type="submit" /></p>
+</form>
+<h3 class='center-text'>For more information about competencies, <a href="{{ url_for('competency.get_competencies') }}">click here.</a><h3>
+{% endblock %}

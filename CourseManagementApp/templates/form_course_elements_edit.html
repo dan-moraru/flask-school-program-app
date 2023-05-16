@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Edit Course-Element Link - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">Edit Course-Element Link</h1>
+
+<form id="celble_form" method="post">
+    <p><label class="celble" for="grouping">Course-Element Grouping:</label>
+    <select id="grouping" name="grouping" required>
+        <option value="" disabled selected>Select A Course-Element Grouping</option></p>
+    {% for grouping in course_element_groupings %}
+        <option value="{{grouping[0]}}_{{grouping[2]}}">{{grouping[1]}} === {{grouping[3]|truncate(50, True, '...', 0)}} ({{grouping[5]}}) === {{grouping[4]}} Hours</option>
+    {% endfor %}
+    </select>
+
+    <p><label class="celble" for="element_hours">New Element Hours:</label>
+    <input type="number" min="0" step="0.01" id="element_hours" name="element_hours" required/></p>
+
+    <p><input type="submit" /></p>
+</form>
+{% endblock %}

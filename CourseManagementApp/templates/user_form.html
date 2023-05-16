@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Edit - {{user.email}} - Dawson College Course Management{% endblock %}
+{% block content %}
+<h1 class="heading-align">Edit User Access Group</h1>
+
+{% if current_user.id != user.id %}
+<form method="post">
+    {{ form.csrf_token }}
+
+    {{ form.choice_access_group.label }} {{ form.choice_access_group() }}
+
+    <input type="submit" value="Change Group"/>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    {%block script %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home.index') }}"><img id="logo" src="/static/logo2.png" /></a>
+        <h1 id="title">Dawson Course Management</h1>
+        <section id='auth-buttons'>
+            {% if current_user.is_authenticated %}
+                <h3 id="logout" class="admin-buttons"><a href="{{url_for('auth.logout') }}">Logout</a></h3>
+                <h3 id="profile" class="admin-buttons"><a href="{{url_for('auth.get_profile',email=current_user.email)}}">
+                    <img id="profile-pic-home" src="{{ url_for('auth.get_profile_picture', email=current_user.email) }}" />
+                    Profile</a></h3>
+                {% if not current_user.blocked %}
+                <h3 id="user-dashboard" class="admin-buttons"><a href="{{url_for('admin.display_users')}}">User Dashboard</a></h3>
+                {% endif %}
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <h3 id='login' class="admin-buttons"><a href="{{ url_for('auth.login') }}">Login</a></h3>
+                <h3 id='signup' class="admin-buttons"><a href="{{ url_for('auth.signup') }}">Sign Up</a></h3>
+            {% endif %}
+        </section>
+    </header>
+
+    <section id="content">{% block content %}{% endblock %}</section>
+    
+    <footer>
+        <section id="status_message">
+            {% if get_flashed_messages() %}
+                {% for message in get_flashed_messages()%}
+                    <div class="flash">{{ message }}</div>
+                    <br />
+                {% endfor %}
+            {% endif %}
+        </section>
+        <section id='names'>
+            <h3>Dan, Alex, Joyel</h3>
+        </section>
+    </footer>
+</body>
+</html>

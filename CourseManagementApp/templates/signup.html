@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Signup - Dawson College Course Management{% endblock %}
+{% block content %}
+
+{% if user %}
+    <h1 class="heading-align">Account Edit</h1>
+{% else %}
+    <h1 class="heading-align">Account Sign Up</h1>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <p>{{ form.name.label }} {{ form.name(value=user.name) }}</p>
+    {% if user %}
+        <p>{{ form.email.label }} {{ form.email(value=user.email, disabled=True) }}</p>
+    {% else %}
+        <p>{{ form.email.label }} {{ form.email() }}</p>
+    {% endif %}
+    {% if not user %}
+        <p>{{ form.password.label }} {{ form.password() }}</p>
+    {% endif %}
+    <p>{{ form.avatar.label }} {{ form.avatar(value=user.avatar) }}</p>
+    <p><input type="submit"></p>
+</form>
+{% endblock %}
